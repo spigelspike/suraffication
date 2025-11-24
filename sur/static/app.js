@@ -107,6 +107,18 @@ uploadForm.addEventListener('submit', async function (e) {
             body: formData
         });
 
+        if (!response.ok) {
+            let errorMessage = 'Unknown error occurred';
+            try {
+                const errorData = await response.json();
+                errorMessage = errorData.error || errorMessage;
+            } catch (e) {
+                // If response is not JSON (e.g. HTML error page), use status text
+                errorMessage = `Server Error: ${response.status} ${response.statusText}`;
+            }
+            throw new Error(errorMessage);
+        }
+
         const data = await response.json();
 
         if (data.success) {
