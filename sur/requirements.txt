@@ -1,0 +1,8 @@
+numpy
+pillow
+imageio
+imageio-ffmpeg
+scipy
+tqdm
+flask
+gunicorn
