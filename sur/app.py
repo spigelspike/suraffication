@@ -46,15 +46,17 @@ def generate():
         source_path = os.path.join(app.config['UPLOAD_FOLDER'], f'{session_id}_source.jpg')
         output_path = os.path.join(app.config['OUTPUT_FOLDER'], f'{session_id}_output.mp4')
         
-        # Use fixed ASCII target
-        target_path = os.path.join('examples', 'ascii_target.png')
-        print(f"DEBUG: Looking for target at: {os.path.abspath(target_path)}")
+        source_file.save(source_path)
+        
+        # Use fixed ASCII target - get absolute path
+        # Get the directory where app.py is located
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        target_path = os.path.join(base_dir, 'examples', 'ascii_target.png')
+        print(f"DEBUG: Looking for target at: {target_path}")
         print(f"DEBUG: Exists? {os.path.exists(target_path)}")
         
         if not os.path.exists(target_path):
-            return jsonify({'error': f'Target image not found at {os.path.abspath(target_path)}'}), 500
-        
-        source_file.save(source_path)
+            return jsonify({'error': f'Target image not found at {target_path}'}), 500
         
         # Get parameters
         preset = request.form.get('preset', 'sand')
